@@ -56,7 +56,8 @@ if app.ENABLE_DETAILS_UI:
 			x, y = self.GetMainBoardPosition()
 			if not self.chDetailsWnd:
 				self.chDetailsWnd = uiCharacterDetails.CharacterDetailsUI(self)
-				self.chDetailsWnd.AdjustPosition(x, y)
+				if x > 0 and y > 0:
+					self.chDetailsWnd.AdjustPosition(x, y)
 				self.chDetailsWnd.Show()
 			else:
 				self.chDetailsWnd.Show()
