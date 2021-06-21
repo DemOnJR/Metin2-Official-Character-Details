@@ -53,11 +53,10 @@ if app.ENABLE_DETAILS_UI:
 			self.MinimizeBtn.Hide()
 			
 		def __ClickExpandButton(self):	
-			x, y = self.GetMainBoardPosition()
+			x, y = self.GetMainBoardPosition() # working on bug
 			if not self.chDetailsWnd:
 				self.chDetailsWnd = uiCharacterDetails.CharacterDetailsUI(self)
-				if x > 0:
-					self.chDetailsWnd.AdjustPosition(x, y)
+				self.chDetailsWnd.AdjustPosition(x, y)
 				self.chDetailsWnd.Show()
 			else:
 				self.chDetailsWnd.Show()
