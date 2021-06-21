@@ -52,9 +52,11 @@ if app.ENABLE_DETAILS_UI:
 			self.ExpandBtn.Show()
 			self.MinimizeBtn.Hide()
 			
-		def __ClickExpandButton(self):			
+		def __ClickExpandButton(self):	
+			x, y = self.GetMainBoardPosition()
 			if not self.chDetailsWnd:
 				self.chDetailsWnd = uiCharacterDetails.CharacterDetailsUI(self)
+				self.chDetailsWnd.AdjustPosition(x, y)
 				self.chDetailsWnd.Show()
 			else:
 				self.chDetailsWnd.Show()
@@ -68,8 +70,13 @@ if app.ENABLE_DETAILS_UI:
 			self.ExpandBtn.Show()
 			
 		def OnMoveWindow(self, x, y):
+			self.chWndPos = x, y
 			if self.chDetailsWnd:
 				self.chDetailsWnd.AdjustPosition(x, y)
+		
+		def GetMainBoardPosition(self):
+			x, y = self.chWndPos
+			return x, y
 
 #Find
 		for titleBarValue in self.titleBarDict.itervalues():
