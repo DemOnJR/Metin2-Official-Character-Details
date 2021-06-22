@@ -1,7 +1,13 @@
 #Add
 if app.ENABLE_DETAILS_UI:
 	import uiCharacterDetails
-	
+
+#Find
+class CharacterWindow(ui.ScriptWindow):
+
+#Add
+	WindowPos = 0
+
 #Find
 	def __init__(self):
 		ui.ScriptWindow.__init__(self)
@@ -43,40 +49,39 @@ if app.ENABLE_DETAILS_UI:
 		def OnTop(self):
 			if self.chDetailsWnd:
 				self.chDetailsWnd.SetTop()
+
 		def Hide(self):
 			if self.chDetailsWnd:
 				self.isOpenedDetailsWnd = self.chDetailsWnd.IsShow()
 				self.chDetailsWnd.Close()
 			wndMgr.Hide(self.hWnd)
+
 		def __InitCharacterDetailsUIButton(self):
 			self.ExpandBtn.Show()
 			self.MinimizeBtn.Hide()
-			
+
+		def OnMoveWindow(self, x, y):
+			self.WindowPos = x, y
+			if self.chDetailsWnd:
+				self.chDetailsWnd.AdjustPosition(x, y)
+
 		def __ClickExpandButton(self):	
-			x, y = self.GetMainBoardPosition() # working on bug
 			if not self.chDetailsWnd:
 				self.chDetailsWnd = uiCharacterDetails.CharacterDetailsUI(self)
-				self.chDetailsWnd.AdjustPosition(x, y)
+				if self.WindowPos > 0:
+					x, y = self.WindowPos
+					self.chDetailsWnd.AdjustPosition(x, y)
 				self.chDetailsWnd.Show()
 			else:
 				self.chDetailsWnd.Show()
-				
+
 			self.ExpandBtn.Hide()
 			self.MinimizeBtn.Show()
-				
+
 		def __ClickMinimizeButton(self):			
 			self.chDetailsWnd.Hide()
 			self.MinimizeBtn.Hide()
 			self.ExpandBtn.Show()
-			
-		def OnMoveWindow(self, x, y):
-			self.chWndPos = x, y
-			if self.chDetailsWnd:
-				self.chDetailsWnd.AdjustPosition(x, y)
-		
-		def GetMainBoardPosition(self):
-			x, y = self.chWndPos
-			return x, y
 
 #Find
 		for titleBarValue in self.titleBarDict.itervalues():
